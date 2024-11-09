@@ -29,10 +29,6 @@ const inputValidation = (video: TRequestBody) => {
         });
     }
 
-    //return only one error:
-    if (errors.errorsMessages.length > 1) {
-        errors.errorsMessages = [errors.errorsMessages[0]];
-    }
     return errors;
 };
 
