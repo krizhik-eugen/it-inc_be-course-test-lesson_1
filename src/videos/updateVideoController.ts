@@ -33,7 +33,7 @@ const inputValidation = (video: TRequestBody) => {
         });
     };
 
-    if (video.canBeDownloaded === undefined) {
+    if (typeof video.canBeDownloaded != 'boolean') {
         errors.errorsMessages.push({
             message: 'Please provide correct canBeDownloaded', field: 'canBeDownloaded',
         });
