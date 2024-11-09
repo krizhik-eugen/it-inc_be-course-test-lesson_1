@@ -47,7 +47,7 @@ export const createVideoController = (req: Request<{}, {}, TRequestBody>, res: R
     const newVideo: TVideo = {
         id: Math.floor(Date.now() + Math.random()),
         createdAt: new Date().toISOString(),
-        publicationDate: new Date().toISOString(),
+        publicationDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString(),
         canBeDownloaded: false,
         minAgeRestriction: null,
         ...req.body,
