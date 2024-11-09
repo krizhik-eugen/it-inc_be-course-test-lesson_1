@@ -4,6 +4,7 @@ import { TVideo } from '../db/types';
 import { RESOLUTIONS } from '../db/constants';
 import { TError, TRequestBody } from './types';
 
+
 const inputValidation = (video: TRequestBody) => {
     const errors: TError = {
         errorsMessages: [],
@@ -45,10 +46,10 @@ export const createVideoController = (req: Request<{}, {}, TRequestBody>, res: R
 
     const newVideo: TVideo = {
         id: Math.floor(Date.now() + Math.random()),
-        // createdAt: new Date().toISOString(),
-        // publicationDate: new Date().toISOString(),
-        // canBeDownloaded: false,
-        // minAgeRestriction: null,
+        createdAt: new Date().toISOString(),
+        publicationDate: new Date().toISOString(),
+        canBeDownloaded: false,
+        minAgeRestriction: null,
         ...req.body,
     };
 
