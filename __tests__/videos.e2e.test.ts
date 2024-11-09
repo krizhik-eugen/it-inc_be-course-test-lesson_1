@@ -11,13 +11,13 @@ describe('/videos', () => {
             id: 1,
             title: 'test title 1',
             author: 'test author 1',
-            availableResolution: [RESOLUTIONS.P240],
+            availableResolutions: [RESOLUTIONS.P240],
         },
         {
             id: 2,
             title: 'test title 2',
             author: 'test author 2',
-            availableResolution: [RESOLUTIONS.P240],
+            availableResolutions: [RESOLUTIONS.P240],
         }],
     };
 
@@ -50,7 +50,7 @@ describe('/videos', () => {
             test_video = {
                 title: 'test title 1',
                 author: 'test author 1',
-                availableResolution: [RESOLUTIONS.P240],
+                availableResolutions: [RESOLUTIONS.P240],
             };
 
         });
@@ -87,15 +87,15 @@ describe('/videos', () => {
             expect(res.body.errorsMessages[0].field).toBe('author');
         });
 
-        it('should return error if availableResolution is missing', async () => {
-            delete test_video.availableResolution;
+        it('should return error if availableResolutions is missing', async () => {
+            delete test_video.availableResolutions;
 
             const res = await req
                 .post(SETTINGS.PATH.VIDEOS)
                 .send(test_video)
                 .expect(400);
 
-            expect(res.body.errorsMessages[0].field).toBe('availableResolution');
+            expect(res.body.errorsMessages[0].field).toBe('availableResolutions');
         });
     });
 
@@ -153,7 +153,7 @@ describe('/videos', () => {
         const updated_video = {
             title: 'new test title 1',
             author: 'new test author 1',
-            availableResolution: [RESOLUTIONS.P240],
+            availableResolutions: [RESOLUTIONS.P240],
             canBeDownloaded: true,
             publicationDate: '2022-07-25T14:30:00.000Z',
             minAgeRestriction: 18

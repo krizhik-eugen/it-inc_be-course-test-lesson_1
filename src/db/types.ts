@@ -12,5 +12,5 @@ export type TVideo = {
     minAgeRestriction?: null | number,
     createdAt?: string,
     publicationDate?: string,
-    availableResolution?: Array<typeof RESOLUTIONS[keyof typeof RESOLUTIONS]> | null,
+    availableResolutions?: Array<typeof RESOLUTIONS[keyof typeof RESOLUTIONS]> | null,
 };

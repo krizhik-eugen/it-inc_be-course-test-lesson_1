@@ -9,7 +9,7 @@ describe('/testing/all-data', () => {
         id: Date.now() + Math.random(),
         title: 'test title 1',
         author: 'unknown',
-        availableResolution: [RESOLUTIONS.P144]
+        availableResolutions: [RESOLUTIONS.P144]
     };
 
     const test_dataset: TDB = {

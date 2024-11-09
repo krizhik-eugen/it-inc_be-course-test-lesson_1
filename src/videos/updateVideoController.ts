@@ -45,11 +45,11 @@ const inputValidation = (video: TRequestBody) => {
         });
     };
 
-    if (!Array.isArray(video.availableResolution)
-        || video.availableResolution.find(p => !RESOLUTIONS[p])
+    if (!Array.isArray(video.availableResolutions)
+        || video.availableResolutions.find(p => !RESOLUTIONS[p])
     ) {
         errors.errorsMessages.push({
-            message: `Please upload one of resolutions: ${Object.values(RESOLUTIONS)}`, field: 'availableResolution',
+            message: `Please upload one of resolutions: ${Object.values(RESOLUTIONS)}`, field: 'availableResolutions',
         });
     }
 
