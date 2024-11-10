@@ -1,12 +1,12 @@
-import { Response, Request } from 'express';
+import { Response } from 'express';
 import { db } from '../db/db';
 import { TVideo } from '../db/types';
-import { TError, TRequestBody } from './types';
+import { TCreateRequest, TError } from './types';
 import { HTTP_STATUS_CODES } from '../constants';
 import { inputValidation } from '../utils';
 
 
-export const createVideoController = (req: Request<{}, {}, TRequestBody>, res: Response<TVideo | TError>) => {
+export const createVideoController = (req: TCreateRequest, res: Response<TVideo | TError>) => {
     const errors = inputValidation(req.body);
 
     if (errors.errorsMessages.length) {

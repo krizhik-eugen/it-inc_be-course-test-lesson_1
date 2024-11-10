@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { db } from '../db/db';
-import { TParam, TRequestBody } from './types';
+import { TUpdateRequest } from './types';
 import { HTTP_STATUS_CODES } from '../constants';
 import { inputValidation } from '../utils';
 
 
-export const updateVideoController = (req: Request<TParam, {}, TRequestBody>, res: Response) => {
+export const updateVideoController = (req: TUpdateRequest, res: Response) => {
     const errors = inputValidation(req.body);
 
     if (errors.errorsMessages.length) {

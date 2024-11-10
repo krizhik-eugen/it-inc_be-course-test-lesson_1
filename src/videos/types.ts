@@ -9,10 +9,10 @@ export type TError = {
     errorsMessages: { message: string, field: keyof TVideo }[],
 };
 
-export type TQuery = {
-    search?: string
-}
-
 export type TRequestBody = Omit<TVideo, 'id'>;
 
-export type TRequest<T> = Request<{}, {}, T>
+export type TCreateRequest = Request<{}, {}, TRequestBody>;
+
+export type TUpdateRequest = Request<TParam, {}, TRequestBody>;
+
+export type TFindOrDeleteRequest = Request<TParam, {}, {}, TParam>;

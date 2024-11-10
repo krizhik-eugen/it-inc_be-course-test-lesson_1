@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { db } from '../db/db';
 import { TVideo } from '../db/types';
-import { TParam } from './types';
+import { TFindOrDeleteRequest } from './types';
 import { HTTP_STATUS_CODES } from '../constants';
 
-export const findVideoController = (req: Request<TParam, {}, {}>, res: Response<TVideo>) => {
+export const findVideoController = (req: TFindOrDeleteRequest, res: Response<TVideo>) => {
     const foundVideo = db.getVideo(Number(req.params.id));
 
     if (!foundVideo) {
