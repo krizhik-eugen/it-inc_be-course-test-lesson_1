@@ -6,6 +6,7 @@ import { db } from './db/db';
 import { HTTP_STATUS_CODES } from './constants';
 
 export const app = express();
+
 app.use(express.json());
 app.use(cors());
 
