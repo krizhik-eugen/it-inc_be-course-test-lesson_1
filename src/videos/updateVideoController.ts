@@ -1,14 +1,8 @@
 import { Request, Response } from 'express';
-import { db, setDB } from '../db/db';
-import { TVideo } from '../db/types';
+import { db } from '../db/db';
 import { TError, TParam, TRequestBody } from './types';
 import { RESOLUTIONS } from '../db/constants';
-import { log } from 'console';
-
-const isDateTimeString = (value: string): boolean => {
-    const dateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
-    return dateTimeRegex.test(value);
-}
+import { checkNumber, HTTP_STATUS_CODES, isDateTimeString } from '../constants';
 
 const inputValidation = (video: TRequestBody) => {
     const errors: TError = {
@@ -27,19 +21,19 @@ const inputValidation = (video: TRequestBody) => {
         });
     };
 
-    if (video.minAgeRestriction && !(video.minAgeRestriction >= 1 && video.minAgeRestriction <= 18)) {
+    if (typeof video.minAgeRestriction != 'undefined' && video.minAgeRestriction != null && !checkNumber(video.minAgeRestriction)) {
         errors.errorsMessages.push({
             message: 'Please provide correct age restriction', field: 'minAgeRestriction',
         });
     };
 
-    if (typeof video.canBeDownloaded != 'boolean') {
+    if (typeof video.canBeDownloaded != 'undefined' && typeof video.canBeDownloaded != 'boolean') {
         errors.errorsMessages.push({
             message: 'Please provide correct canBeDownloaded', field: 'canBeDownloaded',
         });
     };
 
-    if (video.publicationDate && !isDateTimeString(video.publicationDate)) {
+    if (typeof video.publicationDate != 'undefined' && !isDateTimeString(video.publicationDate)) {
         errors.errorsMessages.push({
             message: 'Please provide correct publicationDate', field: 'publicationDate',
         });
@@ -57,28 +51,21 @@ const inputValidation = (video: TRequestBody) => {
 };
 
 export const updateVideoController = (req: Request<TParam, {}, TRequestBody>, res: Response) => {
-    const foundVideo = db.videos.find(video => video.id === Number(req.params.id));
-
-    if (!foundVideo) {
-        res.sendStatus(404);
-        return;
-    };
-
     const errors = inputValidation(req.body);
 
     if (errors.errorsMessages.length) {
         res
-            .status(400)
+            .status(HTTP_STATUS_CODES.BAD_REQUEST)
             .json(errors)
         return;
     };
 
-    const updatedVideo = { ...foundVideo, ...req.body };
+    const isUpdated = db.updateVideo(Number(req.params.id), req.body);
 
-    setDB({
-        ...db,
-        videos: db.videos.map(video => video.id === foundVideo.id ? updatedVideo : video),
-    });
+    if (!isUpdated) {
+        res.sendStatus(HTTP_STATUS_CODES.NOT_FOUND);
+        return;
+    };
 
-    res.sendStatus(204);
+    res.sendStatus(HTTP_STATUS_CODES.NO_CONTENT);
 };

@@ -3,6 +3,7 @@ import { db } from '../db/db';
 import { TVideo } from '../db/types';
 import { RESOLUTIONS } from '../db/constants';
 import { TError, TRequestBody } from './types';
+import { HTTP_STATUS_CODES } from '../constants';
 
 
 const inputValidation = (video: TRequestBody) => {
@@ -39,23 +40,14 @@ export const createVideoController = (req: Request<{}, {}, TRequestBody>, res: R
 
     if (errors.errorsMessages.length) {
         res
-            .status(400)
+            .status(HTTP_STATUS_CODES.BAD_REQUEST)
             .json(errors)
         return;
     };
 
-    const newVideo: TVideo = {
-        id: Math.floor(Date.now() + Math.random()),
-        createdAt: new Date().toISOString(),
-        publicationDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString(),
-        canBeDownloaded: false,
-        minAgeRestriction: null,
-        ...req.body,
-    };
-
-    db.videos = [...db.videos, newVideo];
+    const newVideo = db.addVideo(req.body);
 
     res
-        .status(201)
+        .status(HTTP_STATUS_CODES.CREATED)
         .json(newVideo)
 };

@@ -1,20 +1,10 @@
 import { Request, Response } from 'express';
-import { db, setDB } from '../db/db';
-import { TVideo } from '../db/types';
+import { db } from '../db/db';
 import { TParam } from './types';
+import { HTTP_STATUS_CODES } from '../constants';
 
 export const deleteVideoController = (req: Request<TParam, {}, {}>, res: Response) => {
-    const foundVideo = db.videos.find(video => video.id === Number(req.params.id));
+    const isDeleted = db.deleteVideo(Number(req.params.id));
 
-    if (!foundVideo) {
-        res.sendStatus(404);
-        return;
-    };
-
-    setDB({
-        ...db,
-        videos: db.videos.filter(video => video.id !== foundVideo.id),
-    });
-
-    res.sendStatus(204);
+    res.sendStatus(isDeleted ? HTTP_STATUS_CODES.NO_CONTENT : HTTP_STATUS_CODES.NOT_FOUND);
 };

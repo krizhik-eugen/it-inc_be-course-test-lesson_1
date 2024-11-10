@@ -1,7 +1,7 @@
 import { req } from './test-helpers'
 import { SETTINGS } from '../src/settings'
-import { setDB } from '../src/db/db';
-import { TDB, TVideo } from '../src/db/types';
+import { db } from '../src/db/db';
+import { TDB } from '../src/db/types';
 import { RESOLUTIONS } from '../src/db/constants';
 import { TRequestBody } from '../src/videos/types';
 
@@ -31,7 +31,7 @@ describe('/videos', () => {
         });
 
         it('should get not empty array', async () => {
-            setDB(test_dataset);
+            db.setDB(test_dataset);
 
             const res = await req
                 .get(SETTINGS.PATH.VIDEOS)
@@ -101,7 +101,7 @@ describe('/videos', () => {
 
     describe('get one video', () => {
         it('should return video by id', async () => {
-            setDB(test_dataset);
+            db.setDB(test_dataset);
 
             const res = await req
                 .get(SETTINGS.PATH.VIDEOS + '/1')
@@ -121,7 +121,7 @@ describe('/videos', () => {
 
     describe('delete one video', () => {
         it('should delete video by id', async () => {
-            setDB(test_dataset);
+            db.setDB(test_dataset);
 
             const res = await req
                 .get(SETTINGS.PATH.VIDEOS)
@@ -159,7 +159,7 @@ describe('/videos', () => {
             minAgeRestriction: 18
         };
         it('should update video by id', async () => {
-            setDB(test_dataset);
+            db.setDB(test_dataset);
 
             const res = await req
                 .get(SETTINGS.PATH.VIDEOS)

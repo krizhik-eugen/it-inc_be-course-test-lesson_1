@@ -1,6 +1,6 @@
 import { req } from './test-helpers'
 import { SETTINGS } from '../src/settings'
-import { setDB } from '../src/db/db';
+import { db } from '../src/db/db';
 import { TDB, TVideo } from '../src/db/types';
 import { RESOLUTIONS } from '../src/db/constants';
 
@@ -17,7 +17,7 @@ describe('/testing/all-data', () => {
     };
 
     it('should remove all data', async () => {
-        setDB(test_dataset);
+        db.setDB(test_dataset);
 
         const res = await req
             .get(SETTINGS.PATH.VIDEOS)
@@ -28,7 +28,7 @@ describe('/testing/all-data', () => {
         expect(res.body[0].title).toEqual(test_dataset.videos[0].title);
 
         const delete_res = await req
-            .get('/testing/all-data')
+            .delete('/testing/all-data')
             .expect(204);
 
         expect(delete_res.body).toEqual({});
